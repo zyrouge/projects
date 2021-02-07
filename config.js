@@ -7,5 +7,5 @@ return { src, cmd, dist };
 }
 
 module.exports = [
-createProject({ dir: "shopping-app", build: "dist", cmd: "npm run dev" }),
+createProject({ dir: "todo-app", build: "dist", cmd: "npm run dev" }),
 ];
