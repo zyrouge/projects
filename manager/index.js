@@ -14,9 +14,9 @@ console.log(`${chalk.blueBright("/")} ${text}`);
 }
 
 const start = async () => {
-for (conf of config) {
-const project = await fs.readdir(conf.dir);
-await exec(project.cmd);
+for (project of config) {
+// const project = await fs.readdir(conf.dir);
+await exec(`cd ${project.dir} && ${project.cmd}`);
 await fs.copy(project.dist, path.join(output, project.name));
 Logger.log(`Compiled ${chalk.greenBright(project.name)}`);
 }
