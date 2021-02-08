@@ -23,7 +23,7 @@ const createProject = ({ dir, cmd, build }: ProjectOpts): IProject => {
 }
 
 export const Projects: IProject[] = [
-    createProject({ dir: "todo-app", build: "dist", cmd: "npm install -D && npm run build -- --base=/apps/todo-app/" }),
+    createProject({ dir: "todo-app", build: "dist", cmd: "npm install -D && npm run build -- --base=/todo-app/" }),
 ];
 
 export const copyables: {
