@@ -5,5 +5,5 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
     plugins: [vue()],
     // @ts-ignore
-    base: process.env.NODE_ENV === "production" ? "/apps" : "/",
+    base: process.env.NODE_ENV === "production" ? "/apps/" : "/",
 });
