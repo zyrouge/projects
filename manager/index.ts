@@ -23,12 +23,7 @@ const Logger = {
 const start = async () => {
     for (const project of config.Projects) {
         const lg = ora(`Processing ${chalk.blueBright(project.name)} from ${chalk.blueBright(project.src)}`).start();
-        const proc = await exec(`cd ${project.src} && ${project.cmd}`);
-        if (proc.stderr) {
-            lg.fail(proc.stderr);
-            Logger.error(`Child process of ${project.name} failed. Exiting gracefully...`);
-            process.exit(0);
-        }
+        await exec(`cd ${project.src} && ${project.cmd}`);
         lg.text = `Compiled ${chalk.blueBright(project.name)}`;
         const out = path.join(output, project.name);
         await fs.copy(project.dist, out);
