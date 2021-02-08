@@ -26,7 +26,18 @@ export const Projects: IProject[] = [
     createProject({ dir: "todo-app", build: "dist", cmd: "npm run build" }),
 ];
 
+export const copyables: {
+    from: string; to: string;
+}[] = [
+    {
+        from: path.join(__dirname, "public"),
+        to: path.join(root, "docs")
+    }
+];
+
 export const deletables: string[] = [
-    ...Projects.map(x => x.src),
-    path.join(root, "manager")
+    path.join(root, "apps"),
+    path.join(root, "manager"),
+    path.join(root, ".github"),
+    path.join(root, ".gitignore")
 ];

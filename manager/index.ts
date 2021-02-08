@@ -35,10 +35,18 @@ const start = async () => {
         lg.succeed(`Processed ${chalk.blueBright(project.name)} to ${chalk.blueBright(out)}`);
     }
 
-    for (const del of config.deletables) {
-        const lg = ora(`Deleting ${chalk.blueBright(del)}`);
-        lg.succeed(`Deleted ${chalk.blueBright(del)}`);
+    for (const file of config.copyables) {
+        const lg = ora(`Copying ${chalk.blueBright(file.from)} to ${chalk.blueBright(file.to)}`);
+        await fs.copy(file.from, file.to);
+        lg.succeed(`Copied ${chalk.blueBright(file.from)} to ${chalk.blueBright(file.to)}`);
     }
+
+    for (const file of config.deletables) {
+        const lg = ora(`Deleting ${chalk.blueBright(file)}`);
+        await fs.remove(file);
+        lg.succeed(`Deleted ${chalk.blueBright(file)}`);
+    }
+
     return;
 }
 
