@@ -27,7 +27,8 @@ export const Projects: IProject[] = [
 ];
 
 export const copyables: {
-    from: string; to: string;
+    from: string;
+    to: string;
 }[] = [
     {
         from: path.join(__dirname, "public"),
