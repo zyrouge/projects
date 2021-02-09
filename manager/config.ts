@@ -1,36 +1,27 @@
 import path from "path";
 
-interface ProjectOpts {
-    dir: string;
-    build: string;
-    cmd: string;
-    tags: string[];
-}
-
-interface IProject {
+export interface IProject {
     name: string;
-    src: string;
+    description: string;
+    image: string;
     cmd: string;
+    dir: string;
     dist: string;
     tags: string[];
 }
 
 const root = path.resolve(__dirname, "..");
-const base = path.join(root, "apps");
-
-const createProject = ({ dir, cmd, build, tags }: ProjectOpts): IProject => {
-    const src = path.join(base, dir);
-    const dist = path.join(src, build);
-    return { name: dir, src, cmd, dist, tags };
-}
 
 export const Projects: IProject[] = [
-    createProject({
+    {
+        name: "Todo App",
         dir: "todo-app",
-        build: "dist",
+        description: "Simple Todo app that uses <b>localstorage</b> to store all the data.",
+        image: "/images/notepad.png",
+        dist: "dist",
         cmd: "npm install -D && npm run build -- --base=/todo-app/",
         tags: ["Node.js", "Vue 3"]
-    }),
+    },
 ];
 
 export const copyables: {

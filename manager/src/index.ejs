@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apps - ZYROUGE</title>
+
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-900 text-white">
+    <div class="bg-gray-700 text-center py-12">
+        <p class="text-5xl font-bold mb-4">Apps</p>
+        <p>Made by <strong>ZYROUGE</strong></p>
+    </div>
+
+    <div class="mx-6 my-12">
+        <% projects.forEach(chunk => { %>
+            <div class="flex flex-column align-items justify-center mb-12">
+                <% chunk.forEach(proj => { %>
+                    <div class="bg-gray-700 rounded-lg overflow-hidden shadow-2xl mx-4" id="card-container">
+                        <div class="relative" id="card-header">
+                            <img src="<%= proj.image  %>" alt="<%= proj.name %>">
+                            <a class="px-6 py-4 font-bold text-center text-2xl absolute shadow-lg" id="card-title" href="/<%= proj.dir %>">Todo App</a>
+                        </div>
+                        <div class="px-6 py-4">
+                            <div>
+                                <% proj.tags.forEach(tag => { %>
+                                    <span class="bg-gray-600 px-2 py-1 text-sm rounded"><%= tag %></span>
+                                <% }) %>
+                            </div>
+                            <p class="mt-2 text-gray-400">
+                                <%- proj.description %>
+                            </p>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% }) %>
+    </div>
+
+    <footer class="bg-gray-700 text-gray-400 text-center p-12">
+        <p>&copy; Zyrouge Development 2021</p>
+        <p>Licensed under <b>MIT</b></p>
+    </footer>
+</body>
+
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Sora&display=swap");
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: "Sora", sans-serif;
+    }
+
+    #card-container {
+        max-width: 30%;
+    }
+
+    #card-title {
+        bottom: 0;
+    }
+
+    #card-header {
+        border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    }
+</style>
+
+</html>
