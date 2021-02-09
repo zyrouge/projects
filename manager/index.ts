@@ -49,7 +49,7 @@ const start = async () => {
 
     for (const file of config.deletables) {
         const lg = ora(`Deleting ${chalk.blueBright(file)}`);
-        // await fs.remove(file);
+        await fs.remove(file);
         lg.succeed(`Deleted ${chalk.blueBright(file)}`);
     }
 
