@@ -17,7 +17,7 @@ export const Projects: IProject[] = [
         name: "Todo App",
         dir: "todo-app",
         description: "Simple Todo app that uses <b>localstorage</b> to store all the data.",
-        image: "/images/notepad.png",
+        image: "/images/notepad.jpg",
         dist: "dist",
         cmd: "npm install -D && npm run build -- --base=/todo-app/",
         tags: ["Node.js", "Vue 3"]
