@@ -12,33 +12,48 @@
 
 <body class="bg-gray-900 text-white">
     <div class="bg-gray-700 text-center py-12">
-        <p class="text-5xl font-bold mb-4">Apps</p>
+        <p class="text-5xl font-bold mb-4">Projects</p>
         <p>Made by <strong>ZYROUGE</strong></p>
     </div>
 
     <div class="mx-6 my-12">
-        <% projects.forEach(chunk => { %>
-            <div class="flex flex-col md:flex-row align-items justify-center mb-12">
-                <% chunk.forEach(proj => { %>
-                    <div class="bg-gray-700 rounded-lg overflow-hidden shadow-2xl mx-4" id="card-container">
-                        <div class="relative" id="card-header">
-                            <img src="<%= proj.image  %>" alt="<%= proj.name %>">
-                            <a class="px-6 py-4 font-bold text-center text-2xl absolute shadow-lg" id="card-title" href="/<%= proj.dir %>">Todo App</a>
-                        </div>
-                        <div class="px-6 py-4">
-                            <div>
-                                <% proj.tags.forEach(tag => { %>
-                                    <span class="bg-gray-600 px-2 py-1 text-sm rounded"><%= tag %></span>
-                                <% }) %>
+        <% projects.forEach(chunk=> { %>
+            <div class="flex flex-col md:flex-row align-items justify-center">
+                <% chunk.forEach(proj=> { %>
+                    <div class="bg-gray-700 rounded-lg overflow-hidden shadow-2xl mx-4 mb-8" id="card-container">
+                        <a href="<%= proj.href || `/${proj.dir}` %>">
+                            <div class="relative border-b-2 border-gray-600" id="card-header">
+                                <img src="<%= proj.image  %>" id="card-image" alt="<%= proj.name %>">
+                                <p class="px-6 py-4 font-bold text-center text-2xl absolute" id="card-title">
+                                    <%= proj.name %>
+                                </p>
                             </div>
-                            <p class="mt-2 text-gray-400">
-                                <%- proj.description %>
-                            </p>
-                        </div>
+                            <div class="px-6 py-4">
+                                <div>
+                                    <% proj.tags.forEach(tag=> { %>
+                                        <div class="bg-gray-600 px-2 py-1 text-sm rounded mr-1 mb-1 inline-block">
+                                            <%= tag %>
+                                        </div>
+                                    <% }); %>
+                                </div>
+                                <p class="mt-2 text-gray-400">
+                                    <%- proj.description %>
+                                </p>
+                                <div class="mt-2 text-gray-400">
+                                    <% if (proj.links.length) { %>
+                                        <p>Links:
+                                            <% proj.links.forEach(link=> { %>
+                                                <a class="underline" href="<%= link.href %>"><%= link.name %></a>
+                                            <% }); %>
+                                        </p>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                <% }) %>
+                    <% }); %>
             </div>
-        <% }) %>
+            <% }); %>
     </div>
 
     <footer class="bg-gray-700 text-gray-400 text-center p-12">
@@ -59,12 +74,24 @@
         font-family: "Sora", sans-serif;
     }
 
+    #card-container {
+        height: fit-content;
+        transition: 0.2s;
+    }
+
+    #card-container:hover {
+        transform: translateY(-5px);
+    }
+
     #card-title {
+        text-shadow: 0 0 10px rgb(0, 0, 0, 0.8);
         bottom: 0;
     }
 
-    #card-header {
-        border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    #card-image {
+        object-fit: cover;
+        width: 100%;
+        height: 200px;
     }
 
     @media (min-width: 768px) {
@@ -72,6 +99,7 @@
             max-width: 30%;
         }
     }
+
 </style>
 
 </html>

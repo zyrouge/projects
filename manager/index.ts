@@ -16,10 +16,10 @@ const exec = util.promisify(cp.exec);
 
 const Logger = {
     log (text: string) {
-        console.log(`${chalk.blueBright("./")} ${text}`);
+        console.log(`${chalk.blueBright("/")} ${text}`);
     },
     error(text: string) {
-        console.log(`${chalk.redBright("!!")} ${text}`);
+        console.log(`${chalk.redBright("!")} ${text}`);
     }
 }
 
@@ -29,12 +29,16 @@ const start = async () => {
     ddlg.succeed(`Deleted old output files from ${chalk.blueBright(output)}`);
 
     for (const project of config.Projects) {
-        const lg = ora(`Processing ${chalk.blueBright(project.name)} from ${chalk.blueBright(project.dir)}`).start();
-        await exec(`cd ${path.join(apps, project.dir)} && ${project.cmd}`);
-        lg.text = `Compiled ${chalk.blueBright(project.name)}`;
-        const out = path.join(output, project.dir);
-        await fs.copy(path.join(apps, project.dir, project.dist), out);
-        lg.succeed(`Processed ${chalk.blueBright(project.name)} to ${chalk.blueBright(out)}`);
+        if ("cmd" in project) {
+            const lg = ora(`Processing ${chalk.blueBright(project.name)} from ${chalk.blueBright(project.dir)}`).start();
+            await exec(`cd ${path.join(apps, project.dir)} && ${project.cmd}`);
+            lg.text = `Compiled ${chalk.blueBright(project.name)}`;
+            const out = path.join(output, project.dir);
+            await fs.copy(path.join(apps, project.dir, project.dist), out);
+            lg.succeed(`Processed ${chalk.blueBright(project.name)} to ${chalk.blueBright(out)}`);
+        } else {
+            Logger.log(`Skipped ${chalk.blueBright(project.name)}`);
+        }
     }
 
     for (const file of config.copyables) {
@@ -62,7 +66,7 @@ function RenderHomePage(projects: config.IProject[]): Promise<void> {
     return new Promise(async (resolve) => {
         const template = path.join(__dirname, "src", "index.ejs");
         const html = await ejs.renderFile(template, {
-            projects: _.chunk(projects)
+            projects: _.chunk(projects, 3)
         });
         await fs.writeFile(path.join(output, "index.html"), html);
         resolve();
