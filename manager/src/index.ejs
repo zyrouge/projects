@@ -18,7 +18,7 @@
 
     <div class="mx-6 my-12">
         <% projects.forEach(chunk => { %>
-            <div class="flex flex-column align-items justify-center mb-12">
+            <div class="flex flex-col md:flex-row align-items justify-center mb-12">
                 <% chunk.forEach(proj => { %>
                     <div class="bg-gray-700 rounded-lg overflow-hidden shadow-2xl mx-4" id="card-container">
                         <div class="relative" id="card-header">
@@ -59,16 +59,18 @@
         font-family: "Sora", sans-serif;
     }
 
-    #card-container {
-        max-width: 30%;
-    }
-
     #card-title {
         bottom: 0;
     }
 
     #card-header {
         border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    }
+
+    @media (min-width: 768px) {
+        #card-container {
+            max-width: 30%;
+        }
     }
 </style>
 
