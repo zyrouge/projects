@@ -6,6 +6,10 @@ import util from "util";
 import fs from "fs-extra";
 import chalk from "chalk";
 import ora from "ora";
+import postcss from "postcss";
+
+const autoprefixer = require("autoprefixer");
+const tailwindcss = require("tailwindcss");
 
 import * as config from "./config";
 
@@ -24,7 +28,7 @@ const Logger = {
 }
 
 const start = async () => {
-    const ddlg = ora(`Deleting old output files from ${chalk.blueBright(output)}`);
+    const ddlg = ora(`Deleting old output files from ${chalk.blueBright(output)}`).start();
     await fs.remove(output);
     ddlg.succeed(`Deleted old output files from ${chalk.blueBright(output)}`);
 
@@ -42,24 +46,24 @@ const start = async () => {
     }
 
     for (const file of config.copyables) {
-        const lg = ora(`Copying ${chalk.blueBright(file.from)} to ${chalk.blueBright(file.to)}`);
+        const lg = ora(`Copying ${chalk.blueBright(file.from)} to ${chalk.blueBright(file.to)}`).start();
         await fs.copy(file.from, file.to);
         lg.succeed(`Copied ${chalk.blueBright(file.from)} to ${chalk.blueBright(file.to)}`);
     }
 
-    const hlg = ora(`Rendering Home page (${chalk.blueBright("index.html")})`);
+    const hlg = ora(`Rendering Home page (${chalk.blueBright("index.html")})`).start();
     await RenderHomePage(config.Projects);
     hlg.succeed(`Rendered Home page (${chalk.blueBright("index.html")})`);
 
+    const csslg = ora(`Compiling Stylesheet (${chalk.blueBright("styles.css")})`).start();
+    await exec(`npm run build:css`);
+    csslg.succeed(`Compiled Stylesheet (${chalk.blueBright("styles.css")})`);
+
     for (const file of config.deletables) {
-        const lg = ora(`Deleting ${chalk.blueBright(file)}`);
+        const lg = ora(`Deleting ${chalk.blueBright(file)}`).start();
         await fs.remove(file);
         lg.succeed(`Deleted ${chalk.blueBright(file)}`);
     }
-
-    const cssbase = path.join(__dirname, "src", "styles.css");
-    const cssout = path.join(output, "css", "styles.css");
-    await exec(`NODE_ENV=production npx tailwindcss-cli@latest build ${cssbase} -o ${cssout}`);
 
     return;
 }
