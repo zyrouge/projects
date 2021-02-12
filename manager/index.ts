@@ -57,6 +57,10 @@ const start = async () => {
         lg.succeed(`Deleted ${chalk.blueBright(file)}`);
     }
 
+    const cssbase = path.join(__dirname, "src", "styles.css");
+    const cssout = path.join(output, "css", "styles.css");
+    await exec(`NODE_ENV=production npx tailwindcss-cli@latest build ${cssbase} -o ${cssout}`);
+
     return;
 }
 
