@@ -7,6 +7,7 @@ import fs from "fs-extra";
 import chalk from "chalk";
 import ora from "ora";
 import postcss from "postcss";
+// import jimp from "jimp";
 
 const autoprefixer = require("autoprefixer");
 const tailwindcss = require("tailwindcss");
@@ -58,6 +59,12 @@ const start = async () => {
     const csslg = ora(`Compiling Stylesheet (${chalk.blueBright("styles.css")})`).start();
     await exec(`npm run build:css`);
     csslg.succeed(`Compiled Stylesheet (${chalk.blueBright("styles.css")})`);
+
+    const imgbase = path.join(__dirname, "src", "images");
+    const imgfiles = await fs.readdir(imgbase);
+    for (const file of imgfiles) {
+        // resize img
+    }
 
     for (const file of config.deletables) {
         const lg = ora(`Deleting ${chalk.blueBright(file)}`).start();
