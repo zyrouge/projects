@@ -8,9 +8,6 @@ import chalk from "chalk";
 import ora from "ora";
 import jimp from "jimp";
 
-const autoprefixer = require("autoprefixer");
-const tailwindcss = require("tailwindcss");
-
 import * as config from "./config";
 
 const base = path.resolve(__dirname, "..");
@@ -65,7 +62,7 @@ const start = async () => {
 
     for (const file of config.deletables) {
         const lg = ora(`Deleting ${chalk.blueBright(file)}`).start();
-        // await fs.remove(file);
+        await fs.remove(file);
         lg.succeed(`Deleted ${chalk.blueBright(file)}`);
     }
 
