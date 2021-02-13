@@ -6,8 +6,7 @@ import util from "util";
 import fs from "fs-extra";
 import chalk from "chalk";
 import ora from "ora";
-import postcss from "postcss";
-// import jimp from "jimp";
+import jimp from "jimp";
 
 const autoprefixer = require("autoprefixer");
 const tailwindcss = require("tailwindcss");
@@ -60,15 +59,13 @@ const start = async () => {
     await exec(`npm run build:css`);
     csslg.succeed(`Compiled Stylesheet (${chalk.blueBright("styles.css")})`);
 
-    const imgbase = path.join(__dirname, "src", "images");
-    const imgfiles = await fs.readdir(imgbase);
-    for (const file of imgfiles) {
-        // resize img
-    }
+    const imglg = ora("Compressing Images").start();
+    await CompressImages();
+    imglg.succeed("Compressed Images");
 
     for (const file of config.deletables) {
         const lg = ora(`Deleting ${chalk.blueBright(file)}`).start();
-        await fs.remove(file);
+        // await fs.remove(file);
         lg.succeed(`Deleted ${chalk.blueBright(file)}`);
     }
 
@@ -86,4 +83,19 @@ function RenderHomePage(projects: config.IProject[]): Promise<void> {
         await fs.writeFile(path.join(output, "index.html"), html);
         resolve();
     });
+}
+
+async function CompressImages() {
+    const imgbase = path.join(__dirname, "src", "images");
+    const imgoutbase = path.join(output, "images");
+    const imgfiles = await fs.readdir(imgbase);
+    for (const file of imgfiles) {
+        const inp = path.join(imgbase, file);
+        const out = path.join(imgoutbase, file);
+        const img = await jimp.read(inp);
+        if (img.bitmap.width > 500) img.resize(500, jimp.AUTO);
+        img.quality(80);
+        await img.writeAsync(out);
+    }
+    return;
 }
