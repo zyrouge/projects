@@ -50,6 +50,21 @@ export const Projects: IProject[] = [
         ]
     },
     {
+        name: "Calendar App",
+        dir: "calendar-app",
+        description: "Simple Calendar app that can store <b>events and notes</b> using localstorage",
+        image: "/images/calendar.jpg",
+        dist: "dist",
+        cmd: "npm install -D && npm run build -- --base=/calendar-app/",
+        tags: ["Web App", "Node.js", "Vue 3", "Typescript"],
+        links: [
+            {
+                name: "Source",
+                href: "https://github.com/zyrouge/apps/tree/main/apps/calendar-app"
+            }
+        ]
+    },
+    {
         name: "Genius Lyrics",
         href: "https://genius-lyrics.zyrouge.gq",
         description: "Just a simple lyrics fetcher that uses Genius. Also has official API implementations.",
