@@ -82,9 +82,9 @@ export default defineComponent({
       err: string | null;
     } = {
       dob: reactive({
-        date: "14",
-        month: "04",
-        year: "2004",
+        date: "",
+        month: "",
+        year: "",
       }),
       time: null,
       err: null,
