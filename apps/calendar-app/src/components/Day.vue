@@ -9,7 +9,7 @@
       <span class="mx-2 text-lg">Go Back</span>
     </div>
   </div>
-  <p v-if="err">{{ err }}</p>
+  <p class="mx-10 text-xl"><span class="text-red-500">[!]</span> Seems like an invalid date</p>
   <div class="mx-10" v-else>
     <br />
     <p class="text-center text-3xl text-indigo-600">
