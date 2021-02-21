@@ -26,7 +26,7 @@ library.add(
   faCheckCircle
 );
 
-const history = createWebHistory();
+const history = createWebHistory("/calendar-app/");
 const router = createRouter({
   history,
   routes: [
