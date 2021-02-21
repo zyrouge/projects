@@ -65,6 +65,21 @@ export const Projects: IProject[] = [
         ]
     },
     {
+        name: "Age Calculator",
+        dir: "age-calculator",
+        description: "App that calculates your age and time spent",
+        image: "/images/age.jpg",
+        dist: "dist",
+        cmd: "npm install -D && npm run build -- --base=/age-calculator/",
+        tags: ["Web App", "Node.js", "Vue 3", "Typescript"],
+        links: [
+            {
+                name: "Source",
+                href: "https://github.com/zyrouge/apps/tree/main/apps/age-calculator"
+            }
+        ]
+    },
+    {
         name: "Genius Lyrics",
         href: "https://genius-lyrics.zyrouge.gq",
         description: "Just a simple lyrics fetcher that uses Genius. Also has official API implementations.",
