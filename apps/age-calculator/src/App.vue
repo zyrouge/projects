@@ -123,13 +123,17 @@ export default defineComponent({
       const dateEle = document.getElementById("date-input"),
         monthEle = document.getElementById("month-input"),
         yearEle = document.getElementById("year-input");
+
       const dateN = parseInt(this.dob.date),
-        monthN = parseInt(this.dob.date);
+        monthN = parseInt(this.dob.month);
        
       const dateFill = dateN > 0 && dateN <= 31 && this.dob.date.length === 2,
         monthFill = monthN > 0 && monthN <= 12 && this.dob.month.length === 2;
-      if (dateFill && monthFill && this.dob.year.length === 0) yearEle.select();
-      else if (dateFill && this.dob.month.length === 0) monthEle.select();
+
+      // @ts-ignore
+      if (dateFill && !this.dob.month.length) monthEle?.select();
+      // @ts-ignore
+      else if (dateFill && monthFill && !this.dob.year.length) yearEle?.select();
     },
     update() {
       if (
