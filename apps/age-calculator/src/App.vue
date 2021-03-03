@@ -135,8 +135,8 @@ export default defineComponent({
         return;
       }
 
-      const today = Date.now();
-      const ms = today - date.getTime();
+      const today = new Date();
+      const ms = today.getTime() - date.getTime();
       this.time = this.getFormattedTime(ms);
       this.err = "";
     },
@@ -148,7 +148,7 @@ export default defineComponent({
         mins = sec / 60,
         hrs = mins / 60,
         days = hrs / 24,
-        yrs = days / 365.25;
+        yrs = days / 365.2425;
       return { sec, mins, hrs, days, yrs };
     },
   },
