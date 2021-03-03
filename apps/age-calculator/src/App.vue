@@ -127,7 +127,7 @@ export default defineComponent({
         monthN = parseInt(this.dob.date);
        
       const dateFill = dateN > 0 && dateN <= 31 && this.dob.date.length === 2,
-        monthFill = monthN > 0 && month <= 12 && this.dob.month.length === 2;
+        monthFill = monthN > 0 && monthN <= 12 && this.dob.month.length === 2;
       if (dateFill && monthFill) yearEle.select();
       else if (dateFill) monthEle.select();
     },
