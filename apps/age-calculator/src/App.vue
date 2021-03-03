@@ -125,8 +125,12 @@ export default defineComponent({
         yearEle = document.getElementById("year-input");
       const dateN = parseInt(this.dob.date),
         monthN = parseInt(this.dob.date);
-      if (dateN > 0 && dateN <= 31) return monthEle.select();
-      else if (monthN > 0 && month <= 12) return yearEle.select();
+       
+      const dateFill = dateN > 0 && dateN <= 31 && this.dob.date.length === 2,
+        monthN > 0 && month <= 12 && this.dob.month.length === 2;
+      if (!dateFill || !monthFill) return;
+      if (dateFill && monthFill) yearEle.select();
+      else monthEle.select();
     },
     update() {
       if (
