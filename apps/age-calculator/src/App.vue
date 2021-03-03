@@ -124,11 +124,7 @@ export default defineComponent({
       )
         return;
 
-      const date = new Date(
-        parseInt(this.dob.year),
-        parseInt(this.dob.month),
-        parseInt(this.dob.date)
-      );
+      const date = new Date(`${this.dob.month}-${this.dob.date}-${this.dob.year}`);
       if (!this.isValidDate(date)) {
         this.err = "Seems like an invalid date!";
         this.time = null;
