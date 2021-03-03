@@ -128,9 +128,8 @@ export default defineComponent({
        
       const dateFill = dateN > 0 && dateN <= 31 && this.dob.date.length === 2,
         monthFill = monthN > 0 && month <= 12 && this.dob.month.length === 2;
-      if (!dateFill || !monthFill) return;
       if (dateFill && monthFill) yearEle.select();
-      else monthEle.select();
+      else if (dateFill) monthEle.select();
     },
     update() {
       if (
