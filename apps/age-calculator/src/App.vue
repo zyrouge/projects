@@ -7,6 +7,7 @@
       <div class="mb-5">
         <input
           class="mx-2 text-center text-3xl rounded w-20"
+          id="date-input"
           type="text"
           min="1"
           max="31"
@@ -15,6 +16,7 @@
         />
         <input
           class="mx-2 text-center text-3xl rounded w-20"
+          id="month-input"
           type="text"
           min="1"
           max="12"
@@ -23,6 +25,7 @@
         />
         <input
           class="mx-2 text-center text-3xl rounded w-28"
+          id="year-input"
           type="text"
           placeholder="YYYY"
           v-model="dob.year"
@@ -116,13 +119,22 @@ export default defineComponent({
       this.dob.year = this.removeOtherChars(this.dob.year);
       this.update();
     },
+    manipCursor() {
+      const dateEle = document.getElementById("date-input"),
+        monthEle = document.getElementById("month-input"),
+        yearEle = document.getElementById("year-input");
+      const dateN = parseInt(this.dob.date),
+        monthN = parseInt(this.dob.date);
+      if (dateN > 0 && dateN <= 31) return monthEle.select();
+      else if (monthN > 0 && month <= 12) return yearEle.select();
+    },
     update() {
       if (
         !this.dob.year.length ||
         !this.dob.month.length ||
         !this.dob.date.length
       )
-        return;
+        return this.manipCursor();
 
       const date = new Date(`${this.dob.month}-${this.dob.date}-${this.dob.year}`);
       if (!this.isValidDate(date)) {
