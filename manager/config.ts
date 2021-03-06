@@ -30,7 +30,7 @@ export const Projects: IProject[] = [
         name: "ZDev API",
         href: "https://zyrouge.gq/api/docs",
         description: "Multipurpose API with features like Image Manipulation and stuffs.",
-        image: "https://avatars.githubusercontent.com/u/64364213?s=200&v=4",
+        image: "https://raw.githubusercontent.com/zyrouge/zyrouge.gq/master/src/assets/zdev.png",
         tags: ["Node.js", "Express", "API"],
         links: []
     },
