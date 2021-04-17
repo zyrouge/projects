@@ -26,14 +26,14 @@ export type IProject = IProjectBase & (ILocalProject | ICloudProject);
 const root = path.resolve(__dirname, "..");
 
 export const Projects: IProject[] = [
-    {
-        name: "ZDev API",
-        href: "https://zyrouge.gq/api/docs",
-        description: "Multipurpose API with features like Image Manipulation and stuffs.",
-        image: "https://raw.githubusercontent.com/zyrouge/zyrouge.gq/master/src/assets/zdev.png",
-        tags: ["Node.js", "Express", "API"],
-        links: []
-    },
+    // {
+    //     name: "ZDev API",
+    //     href: "https://zyrouge.gq/api/docs",
+    //     description: "Multipurpose API with features like Image Manipulation and stuffs.",
+    //     image: "https://raw.githubusercontent.com/zyrouge/zyrouge.gq/master/src/assets/zdev.png",
+    //     tags: ["Node.js", "Express", "API"],
+    //     links: []
+    // },
     {
         name: "Todo App",
         dir: "todo-app",
@@ -81,7 +81,7 @@ export const Projects: IProject[] = [
     },
     {
         name: "Genius Lyrics",
-        href: "https://genius-lyrics.zyrouge.gq",
+        href: "https://genius-lyrics.js.org",
         description: "Just a simple lyrics fetcher that uses Genius. Also has official API implementations.",
         image: "/images/music.jpg",
         tags: ["NPM", "Node.js", "Typescript", "API", "Scrapping"],
@@ -112,7 +112,24 @@ export const Projects: IProject[] = [
                 href: "https://www.npmjs.com/package/canvacord"
             }
         ]
-    }
+    },
+    {
+        name: "YouTube Extractor",
+        href: "https://youtube-ext.js.org/",
+        description: "Just a simple YouTube scraper. No key needed!",
+        image: "https://raw.githubusercontent.com/zyrouge/youtube-ext/main/media/imgs/logo.png",
+        tags: ["NPM", "Node.js", "Typescript", "Scrapping"],
+        links: [
+            {
+                name: "Source",
+                href: "https://github.com/zyrouge/youtube-ext"
+            },
+            {
+                name: "NPM",
+                href: "https://www.npmjs.com/package/youtube-ext"
+            }
+        ]
+    },
 ];
 
 export const copyables: {

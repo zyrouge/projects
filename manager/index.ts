@@ -34,7 +34,7 @@ const start = async () => {
     for (const project of config.Projects) {
         if ("cmd" in project) {
             const lg = ora(`Processing ${chalk.blueBright(project.name)} from ${chalk.blueBright(project.dir)}`).start();
-            await exec(`cd ${path.join(apps, project.dir)} && ${project.cmd()}`);
+            await exec(`cd ${path.join(apps, project.dir)} && ${project.cmd(pkgjson.homepage)}`);
             lg.text = `Compiled ${chalk.blueBright(project.name)}`;
             const out = path.join(output, project.dir);
             await fs.copy(path.join(apps, project.dir, project.dist), out);
@@ -59,9 +59,9 @@ const start = async () => {
         lg.succeed(`Copied ${chalk.blueBright(file.from)} to ${chalk.blueBright(file.to)}`);
     }
 
-    const hlg = ora(`Rendering Home page (${chalk.blueBright("index.html")})`).start();
+    const hlg = ora(`Rendering API (${chalk.blueBright("api.json")})`).start();
     await RenderAPI(served);
-    hlg.succeed(`Rendered Home page (${chalk.blueBright("index.html")})`);
+    hlg.succeed(`Rendered API (${chalk.blueBright("api.json")})`);
 
     const csslg = ora(`Compiling Stylesheet (${chalk.blueBright("styles.css")})`).start();
     await exec(`npm run build:css`);
@@ -77,13 +77,13 @@ const start = async () => {
 start();
 
 async function RenderAPI(projects: (config.IProjectBase & config.ICloudProject)[]): Promise<void> {
-    await fs.writeFile(path.join(output, "all.json"), {
+    await fs.writeFile(path.join(output, "api.json"), JSON.stringify({
         lastUpdated: Date.now(),
         apps: projects.map(x => ({
             ...x,
             href: `${pkgjson.homepage}/${x.href}`
         }))
-    });
+    }));
     return;
 }
 
