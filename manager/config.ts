@@ -38,7 +38,7 @@ export const Projects: IProject[] = [
         name: "Todo App",
         dir: "todo-app",
         description: "Simple Todo app that uses <b>localstorage</b> to store all the data.",
-        image: "/images/notepad.jpg",
+        image: "images/notepad.jpg",
         dist: "dist",
         cmd: (baseUrl: string) => `npm install -D && npm run build -- --base=${baseUrl}/todo-app/`,
         tags: ["Web App", "Node.js", "Vue 3", "Typescript"],
@@ -53,7 +53,7 @@ export const Projects: IProject[] = [
         name: "Calendar App",
         dir: "calendar-app",
         description: "Simple Calendar app that can store <b>events and notes</b> using localstorage",
-        image: "/images/calendar.jpg",
+        image: "images/calendar.jpg",
         dist: "dist",
         cmd: (baseUrl: string) => `npm install -D && npm run build -- --base=${baseUrl}/calendar-app/`,
         tags: ["Web App", "Node.js", "Vue 3", "Typescript"],
@@ -68,7 +68,7 @@ export const Projects: IProject[] = [
         name: "Age Calculator",
         dir: "age-calculator",
         description: "App that calculates your age and time spent",
-        image: "/images/age.jpg",
+        image: "images/age.jpg",
         dist: "dist",
         cmd: (baseUrl: string) => `npm install -D && npm run build -- --base=${baseUrl}/age-calculator/`,
         tags: ["Web App", "Node.js", "Vue 3", "Typescript"],
@@ -83,7 +83,7 @@ export const Projects: IProject[] = [
         name: "Genius Lyrics",
         href: "https://genius-lyrics.js.org",
         description: "Just a simple lyrics fetcher that uses Genius. Also has official API implementations.",
-        image: "/images/music.jpg",
+        image: "images/music.jpg",
         tags: ["NPM", "Node.js", "Typescript", "API", "Scrapping"],
         links: [
             {
@@ -100,7 +100,7 @@ export const Projects: IProject[] = [
         name: "Canvacord",
         href: "https://canvacord.js.org/",
         description: "Powerful image manipulation tool to manipulate images easily.",
-        image: "/images/palatte.jpg",
+        image: "images/palatte.jpg",
         tags: ["NPM", "Node.js", "Typescript", "API"],
         links: [
             {
