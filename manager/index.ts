@@ -63,10 +63,6 @@ const start = async () => {
     await RenderAPI(served);
     hlg.succeed(`Rendered API (${chalk.blueBright("api.json")})`);
 
-    const csslg = ora(`Compiling Stylesheet (${chalk.blueBright("styles.css")})`).start();
-    await exec(`npm run build:css`);
-    csslg.succeed(`Compiled Stylesheet (${chalk.blueBright("styles.css")})`);
-
     const imglg = ora("Compressing Images").start();
     await CompressImages();
     imglg.succeed("Compressed Images");
