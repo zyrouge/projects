@@ -1,12 +1,12 @@
 import path from "path";
 import cp from "child_process";
-import ejs from "ejs";
 import _ from "lodash";
 import util from "util";
 import fs from "fs-extra";
 import chalk from "chalk";
 import ora from "ora";
 import jimp from "jimp";
+import pkgjson from "./package.json";
 
 import * as config from "./config";
 
@@ -25,6 +25,8 @@ const Logger = {
 }
 
 const start = async () => {
+    const served: (config.IProjectBase & config.ICloudProject)[] = [];
+
     const ddlg = ora(`Deleting old output files from ${chalk.blueBright(output)}`).start();
     await fs.remove(output);
     ddlg.succeed(`Deleted old output files from ${chalk.blueBright(output)}`);
@@ -32,13 +34,22 @@ const start = async () => {
     for (const project of config.Projects) {
         if ("cmd" in project) {
             const lg = ora(`Processing ${chalk.blueBright(project.name)} from ${chalk.blueBright(project.dir)}`).start();
-            await exec(`cd ${path.join(apps, project.dir)} && ${project.cmd}`);
+            await exec(`cd ${path.join(apps, project.dir)} && ${project.cmd()}`);
             lg.text = `Compiled ${chalk.blueBright(project.name)}`;
             const out = path.join(output, project.dir);
             await fs.copy(path.join(apps, project.dir, project.dist), out);
             lg.succeed(`Processed ${chalk.blueBright(project.name)} to ${chalk.blueBright(out)}`);
+            served.push({
+                name: project.name,
+                description: project.description,
+                image: project.image,
+                tags: project.tags,
+                links: project.links,
+                href: project.dir
+            });
         } else {
             Logger.log(`Skipped ${chalk.blueBright(project.name)}`);
+            served.push(project);
         }
     }
 
@@ -49,7 +60,7 @@ const start = async () => {
     }
 
     const hlg = ora(`Rendering Home page (${chalk.blueBright("index.html")})`).start();
-    await RenderHomePage(config.Projects);
+    await RenderAPI(served);
     hlg.succeed(`Rendered Home page (${chalk.blueBright("index.html")})`);
 
     const csslg = ora(`Compiling Stylesheet (${chalk.blueBright("styles.css")})`).start();
@@ -60,26 +71,20 @@ const start = async () => {
     await CompressImages();
     imglg.succeed("Compressed Images");
 
-    for (const file of config.deletables) {
-        const lg = ora(`Deleting ${chalk.blueBright(file)}`).start();
-        await fs.remove(file);
-        lg.succeed(`Deleted ${chalk.blueBright(file)}`);
-    }
-
     return;
 }
 
 start();
 
-function RenderHomePage(projects: config.IProject[]): Promise<void> {
-    return new Promise(async (resolve) => {
-        const template = path.join(__dirname, "src", "index.ejs");
-        const html = await ejs.renderFile(template, {
-            projects: _.chunk(projects, 3)
-        });
-        await fs.writeFile(path.join(output, "index.html"), html);
-        resolve();
+async function RenderAPI(projects: (config.IProjectBase & config.ICloudProject)[]): Promise<void> {
+    await fs.writeFile(path.join(output, "all.json"), {
+        lastUpdated: Date.now(),
+        apps: projects.map(x => ({
+            ...x,
+            href: `${pkgjson.homepage}/${x.href}`
+        }))
     });
+    return;
 }
 
 async function CompressImages() {

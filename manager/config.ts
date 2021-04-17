@@ -11,13 +11,13 @@ export interface IProjectBase {
     }[];
 }
 
-interface ILocalProject {
+export interface ILocalProject {
     dir: string;
-    cmd: string;
+    cmd(baseUrl: string): string;
     dist: string;
 }
 
-interface ICloudProject {
+export interface ICloudProject {
     href: string;
 }
 
@@ -40,7 +40,7 @@ export const Projects: IProject[] = [
         description: "Simple Todo app that uses <b>localstorage</b> to store all the data.",
         image: "/images/notepad.jpg",
         dist: "dist",
-        cmd: "npm install -D && npm run build -- --base=/todo-app/",
+        cmd: (baseUrl: string) => `npm install -D && npm run build -- --base=${baseUrl}/todo-app/`,
         tags: ["Web App", "Node.js", "Vue 3", "Typescript"],
         links: [
             {
@@ -55,7 +55,7 @@ export const Projects: IProject[] = [
         description: "Simple Calendar app that can store <b>events and notes</b> using localstorage",
         image: "/images/calendar.jpg",
         dist: "dist",
-        cmd: "npm install -D && npm run build -- --base=/calendar-app/",
+        cmd: (baseUrl: string) => `npm install -D && npm run build -- --base=${baseUrl}/calendar-app/`,
         tags: ["Web App", "Node.js", "Vue 3", "Typescript"],
         links: [
             {
@@ -70,7 +70,7 @@ export const Projects: IProject[] = [
         description: "App that calculates your age and time spent",
         image: "/images/age.jpg",
         dist: "dist",
-        cmd: "npm install -D && npm run build -- --base=/age-calculator/",
+        cmd: (baseUrl: string) => `npm install -D && npm run build -- --base=${baseUrl}/age-calculator/`,
         tags: ["Web App", "Node.js", "Vue 3", "Typescript"],
         links: [
             {
@@ -123,11 +123,4 @@ export const copyables: {
         from: path.join(__dirname, "public"),
         to: path.join(root, "docs")
     }
-];
-
-export const deletables: string[] = [
-    path.join(root, "apps"),
-    path.join(root, "manager"),
-    path.join(root, ".github"),
-    path.join(root, ".gitignore")
 ];
