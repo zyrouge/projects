@@ -81,7 +81,7 @@ async function RenderAPI(projects: (config.IProjectBase & config.ICloudProject)[
         lastUpdated: Date.now(),
         apps: projects.map(x => ({
             ...x,
-            href: `${pkgjson.homepage}/${x.href}`
+            href: x.href.startsWith("http") ? x.href : `${pkgjson.homepage}/${x.href}`
         }))
     }));
     return;
