@@ -26,14 +26,6 @@ export type IProject = IProjectBase & (ILocalProject | ICloudProject);
 const root = path.resolve(__dirname, "..");
 
 export const Projects: IProject[] = [
-    // {
-    //     name: "ZDev API",
-    //     href: "https://zyrouge.gq/api/docs",
-    //     description: "Multipurpose API with features like Image Manipulation and stuffs.",
-    //     image: "https://raw.githubusercontent.com/zyrouge/zyrouge.gq/master/src/assets/zdev.png",
-    //     tags: ["Node.js", "Express", "API"],
-    //     links: []
-    // },
     {
         name: "Todo App",
         dir: "todo-app",
