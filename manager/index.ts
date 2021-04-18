@@ -32,9 +32,9 @@ const start = async () => {
     ddlg.succeed(`Deleted old output files from ${chalk.blueBright(output)}`);
 
     for (const project of config.Projects) {
-        if ("cmd" in project) {
+        if (!("href" in project)) {
             const lg = ora(`Processing ${chalk.blueBright(project.name)} from ${chalk.blueBright(project.dir)}`).start();
-            await exec(`cd ${path.join(apps, project.dir)} && ${project.cmd(pkgjson.homepage)}`);
+            if (project.cmd) await exec(`cd ${path.join(apps, project.dir)} && ${project.cmd(pkgjson.homepage)}`);
             lg.text = `Compiled ${chalk.blueBright(project.name)}`;
             const out = path.join(output, project.dir);
             await fs.copy(path.join(apps, project.dir, project.dist), out);

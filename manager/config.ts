@@ -13,7 +13,7 @@ export interface IProjectBase {
 
 export interface ILocalProject {
     dir: string;
-    cmd(baseUrl: string): string;
+    cmd?(baseUrl: string): string;
     dist: string;
 }
 
@@ -122,6 +122,20 @@ export const Projects: IProject[] = [
             }
         ]
     },
+    {
+        name: "Tic Tac Toe",
+        dir: "tic-tac-toe",
+        description: "Simple Tic Tac Toe game",
+        image: "images/tic-tac-toe.jpg",
+        dist: "src",
+        tags: ["Web App"],
+        links: [
+            {
+                name: "Source",
+                href: "https://github.com/zyrouge/apps/tree/main/apps/tic-tac-toe"
+            }
+        ]
+    }
 ];
 
 export const copyables: {
