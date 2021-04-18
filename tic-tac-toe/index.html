@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.11/vue.global.prod.js"></script>
+</head>
+<body>
+    <div id="app">
+        <ul v-if="wins" style="position: absolute; top: 10px; right: 15px; text-align: right;">
+            <li>Your wins: <b>{{ wins.you }}</b></li>
+            <li>Bot wins: <b>{{ wins.bot }}</b></li>
+            <li style="margin-top: 6px;"><button class="button is-dark is-small" @click="resetScore()">Reset score</button></li>
+        </ul>
+        <div id="content">
+            <h1 class="title">Tic Tac Toe</h1>
+            <div v-if="!started">
+                <button class="button is-primary" v-if="!started && !board" @click="game()">Start</button>
+            </div>
+            <main v-if="board">
+                <div>
+                    <h3 class="subtitle is-capitalized" v-if="result">{{
+                        result.winner
+                            ? `${result.winner} won!`
+                            : (result.draw ? "Draw" : "-")
+                    }}</h3>
+                    <button class="button is-danger" @click="reset()">Reset game</button>
+                </div>
+                <br>
+                <div>
+                    <div class="columns is-mobile" v-for="(column, ci) in board" :key="column">
+                        <div class="column" v-for="(row, ri) in column" :key="row">
+                            <button
+                                :class="['button', (freeze || row) && 'disabled', row && (row === 'X' ? 'is-success' : 'is-link')]"
+                                @click="!freeze && !row && move(ci, ri);"
+                                style="width: 40px;"
+                            >{{ row || "" }}</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <style>
+        #app {
+            height: 100vh;
+            position: relative;
+        }
+
+        #content {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+    </style>
+    
+    <script>
+        const app = {
+            data() {
+                return {
+                    started: false,
+                    board: null,
+                    wins: {
+                        you: 0,
+                        bot: 0
+                    },
+                    freeze: false,
+                    result: null
+                }
+            },
+            mounted() {
+                this.updateWinCounter();
+            },
+            methods: {
+                getEmptyBoard() {
+                    return Array(3).fill(null).map(x => Array(3).fill(null));
+                },
+                getRandomEmptyRowColumn() {
+                    const emptyCols = [];
+                    this.board.forEach((col, ci) => {
+                        col.forEach((row, ri) => {
+                            if (!row) emptyCols.push([ci, ri]);
+                        });
+                    });
+                    return emptyCols.length
+                        ? emptyCols[Math.floor(Math.random() * emptyCols.length)]
+                        : null;
+                },
+                game() {
+                    this.started = !this.started;
+                    this.board = this.started ? this.getEmptyBoard() : null;
+                    this.freeze = false;
+                },
+                incrementWin(type) {
+                    const key = `wins_${type}`;
+                    const prev = localStorage.getItem(key);
+                    const now = (prev ? +prev : 0) + 1;
+                    localStorage.setItem(key, now.toString());
+                    this.updateWinCounter();
+                },
+                updateWinCounter() {
+                    const botwins = localStorage.getItem("wins_bot");
+                    this.wins.bot = botwins ? +botwins : 0;
+                    const youwins = localStorage.getItem("wins_you");
+                    this.wins.you = youwins ? +youwins : 0;
+                },
+                makeMove(user, ci, ri) {
+                    this.board[ci][ri] = user === "you" ? "X" : "O";
+                },
+                move(...moves) {
+                    this.makeMove("you", ...moves);
+                    const youWin = this.checkMoves("X");
+                    if (youWin) {
+                        this.result = {
+                            winner: "you"
+                        };
+                        this.incrementWin("you");
+                        this.end();
+                        return;
+                    }
+
+                    const botMove = this.getRandomEmptyRowColumn();
+                    if (botMove) {
+                        this.makeMove("bot", ...botMove);
+                        const botWin = this.checkMoves("O");
+                        if (botWin) {
+                            this.result = {
+                                winner: "bot"
+                            };
+                            this.incrementWin("bot");
+                            this.end();
+                            return;
+                        }
+                    } else {
+                        this.result = {
+                            draw: true
+                        };
+                        this.end();
+                    }
+                },
+                checkMoves(coin) {
+                    const col = [...this.board];
+                    return (
+                        // Check if entire row is same
+                        !!col.find(x => x.filter(y => y === coin).length === 3) ||
+
+                        // Check if entire row is same
+                        !!col.find((x, i) => col.map(y => y[i]).filter(y => y === coin).length === 3) ||
+
+                        // Check left top to right bottom
+                        col.map((x, i) => x[i]).filter(x => x === coin).length === 3 ||
+
+                        // Check right top to left bottom
+                        col.map((x, i) => x[col.length - i - 1]).filter(x => x === coin).length === 3
+                    );
+                },
+                end() {
+                    this.started = false;
+                    this.freeze = true;
+                },
+                reset() {
+                    this.started = false;
+                    this.board = null;
+                    this.result = null;
+                    this.freeze = false;
+                },
+                resetScore() {
+                    [
+                        "wins_bot",
+                        "wins_you"
+                    ].forEach(x => {
+                        localStorage.setItem(x, "0");
+                    });
+                    this.updateWinCounter();
+                }
+            }
+        }
+
+        Vue.createApp(app).mount("#app");
+    </script>
+</body>
+</html>
