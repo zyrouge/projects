@@ -19,8 +19,15 @@
         </ul>
         <div id="content">
             <h1 class="title">Tic Tac Toe</h1>
-            <div v-if="!started">
-                <button class="button is-primary" v-if="!started && !board" @click="game()">Start</button>
+            <div v-if="!started && !board">
+                <div class="field has-addons">
+                    <div class="control">
+                        <input class="input is-primary" type="number" min="2" max="6" name="No. of rows" v-model="boardRows">
+                    </div>
+                    <div class="control">
+                        <button class="button is-primary" @click="game()">Start</button>
+                    </div>
+                </div>
             </div>
             <main v-if="board">
                 <div>
@@ -49,13 +56,13 @@
 
     <style>
         #app {
-            height: 100vh;
+            min-height: 100vh;
             position: relative;
         }
 
         #content {
             position: absolute;
-            top: 45%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
@@ -73,15 +80,16 @@
                         bot: 0
                     },
                     freeze: false,
-                    result: null
+                    result: null,
+                    boardRows: "3"
                 }
             },
             mounted() {
                 this.updateWinCounter();
             },
             methods: {
-                getEmptyBoard() {
-                    return Array(3).fill(null).map(x => Array(3).fill(null));
+                getEmptyBoard(length) {
+                    return Array(length).fill(null).map(x => Array(length).fill(null));
                 },
                 getRandomEmptyRowColumn() {
                     const emptyCols = [];
@@ -96,7 +104,7 @@
                 },
                 game() {
                     this.started = !this.started;
-                    this.board = this.started ? this.getEmptyBoard() : null;
+                    this.board = this.started ? this.getEmptyBoard(+this.boardRows || 3) : null;
                     this.freeze = false;
                 },
                 incrementWin(type) {
@@ -147,19 +155,19 @@
                     }
                 },
                 checkMoves(coin) {
-                    const col = [...this.board];
+                    const col = [...this.board], maxPossible = col.length;
                     return (
                         // Check if entire row is same
-                        !!col.find(x => x.filter(y => y === coin).length === 3) ||
+                        !!col.find(x => x.filter(y => y === coin).length === maxPossible) ||
 
                         // Check if entire row is same
-                        !!col.find((x, i) => col.map(y => y[i]).filter(y => y === coin).length === 3) ||
+                        !!col.find((x, i) => col.map(y => y[i]).filter(y => y === coin).length === maxPossible) ||
 
                         // Check left top to right bottom
-                        col.map((x, i) => x[i]).filter(x => x === coin).length === 3 ||
+                        col.map((x, i) => x[i]).filter(x => x === coin).length === maxPossible ||
 
                         // Check right top to left bottom
-                        col.map((x, i) => x[col.length - i - 1]).filter(x => x === coin).length === 3
+                        col.map((x, i) => x[col.length - i - 1]).filter(x => x === coin).length === maxPossible
                     );
                 },
                 end() {
