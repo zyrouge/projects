@@ -30,7 +30,7 @@ export const Projects: IProject[] = [
         name: "Yukino",
         href: "https://zyrouge.github.io/yukino-app/",
         description: "Yukino lets you stream anime or read manga ad-free from multiple sources for free!",
-        image: "https://github.com/zyrouge/yukino-app/blob/next/resources/large.png?raw=true",
+        image: "images/yukino.png",
         tags: ["Electron", "Vue", "Node.js", "Typescript", "Scraping"],
         links: [
             {
