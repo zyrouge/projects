@@ -27,6 +27,19 @@ const root = path.resolve(__dirname, "..");
 
 export const Projects: IProject[] = [
     {
+        name: "Yukino",
+        href: "https://zyrouge.github.io/yukino-app/",
+        description: "Yukino lets you stream anime or read manga ad-free from multiple sources for free!",
+        image: "https://github.com/zyrouge/yukino-app/blob/next/resources/large.png?raw=true",
+        tags: ["Electron", "Vue", "Node.js", "Typescript", "Scraping"],
+        links: [
+            {
+                name: "Source",
+                href: "https://github.com/zyrouge/yukino-app"
+            },
+        ]
+    },
+    {
         name: "Todo App",
         dir: "todo-app",
         description: "Simple Todo app that uses <b>localstorage</b> to store all the data.",
@@ -76,7 +89,7 @@ export const Projects: IProject[] = [
         href: "https://genius-lyrics.js.org",
         description: "Just a simple lyrics fetcher that uses Genius. Also has official API implementations.",
         image: "images/music.jpg",
-        tags: ["NPM", "Node.js", "Typescript", "API", "Scrapping"],
+        tags: ["NPM", "Node.js", "Typescript", "API", "Scraping"],
         links: [
             {
                 name: "Source",
@@ -110,7 +123,7 @@ export const Projects: IProject[] = [
         href: "https://youtube-ext.js.org/",
         description: "Just a simple YouTube scraper. No key needed!",
         image: "https://raw.githubusercontent.com/zyrouge/youtube-ext/main/media/imgs/logo.png",
-        tags: ["NPM", "Node.js", "Typescript", "Scrapping"],
+        tags: ["NPM", "Node.js", "Typescript", "Scraping"],
         links: [
             {
                 name: "Source",
